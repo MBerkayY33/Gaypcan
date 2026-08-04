@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://btkktu5iocop5"]
+
+[ext_resource type="PackedScene" uid="uid://c7yghprryti1q" path="res://Scenes/gaypcan.tscn" id="1_a02cp"]
+
+[node name="world" type="Node2D" unique_id=1605365973]
+
+[node name="Gaypcan" parent="." unique_id=1344987193 instance=ExtResource("1_a02cp")]
