@@ -1,10 +1,26 @@
 [gd_scene format=3 uid="uid://c7yghprryti1q"]
 
-[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://icon.svg" id="1_gtkyk"]
+[ext_resource type="Script" uid="uid://cfu36f7gstsr6" path="res://Scripts/Gaypcan/gaypcan.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://Scripts/Gaypcan/states/idle_state.gd" id="2_idle"]
+[ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="3_wander"]
 
-[node name="Gaypcan" type="CharacterBody2D" unique_id=487910812]
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 16.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1564346922]
-position = Vector2(138, 61)
-scale = Vector2(0.7734375, 0.8046875)
-texture = ExtResource("1_gtkyk")
+[node name="Gaypcan" type="CharacterBody2D" unique_id=1344987193]
+script = ExtResource("1_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1371694508]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1100029131]
+shape = SubResource("CircleShape2D_1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1593886793]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1382481616]
+
+[node name="Idle" type="Node" parent="." unique_id=1999822608]
+script = ExtResource("2_idle")
+
+[node name="Walk" type="Node" parent="." unique_id=618731249]
+script = ExtResource("3_wander")
