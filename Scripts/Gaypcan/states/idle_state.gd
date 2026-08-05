@@ -1,23 +1,21 @@
 ## ===================================================================
 ## IdleState – Bekleme Durumu
 ## ===================================================================
-## Canlı bir yerde durur, etrafına bakar.
-## Belirli bir süre sonra yürümeye (walk) geçer.
-## ===================================================================
-extends GaypcanState
+extends CreatureState
 
 ## Bekleme süre sayacı
 var timer: float = 0.0
 
 func enter() -> void:
 	animation_name = "idle"
-	gaypcan.velocity = Vector2.ZERO
+	creature.velocity = Vector2.ZERO
 	
 	# Rastgele bir süre bekle
-	timer = randf_range(gaypcan.idle_min_time, gaypcan.idle_max_time)
+	timer = randf_range(creature.idle_min_time, creature.idle_max_time)
 
 func update(delta: float) -> void:
-	gaypcan.velocity = Vector2.ZERO
+	# Sürtünme ile yumuşak bir şekilde dur
+	creature.velocity = creature.velocity.move_toward(Vector2.ZERO, creature.friction * delta)
 	
 	# Süre dolunca yürümeye başla
 	timer -= delta

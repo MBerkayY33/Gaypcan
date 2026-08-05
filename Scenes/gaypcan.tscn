@@ -1,26 +1,148 @@
 [gd_scene format=3 uid="uid://c7yghprryti1q"]
 
 [ext_resource type="Script" uid="uid://cfu36f7gstsr6" path="res://Scripts/Gaypcan/gaypcan.gd" id="1_script"]
-[ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://Scripts/Gaypcan/states/idle_state.gd" id="2_idle"]
-[ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="3_wander"]
+[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://Assests/icon.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://Scripts/Gaypcan/states/idle_state.gd" id="3_idle"]
+[ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="4_walk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1"]
 radius = 16.0
 
+[sub_resource type="Animation" id="Animation_ys7nj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ywcne"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+markers = [{
+"color": Color(1, 1, 1, 1),
+"name": &"new_marker_2",
+"time": -1.3666667
+}]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(0.5546875, 0.546875)]
+}
+
+[sub_resource type="Animation" id="Animation_rxur6"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(0.62890625, 0.609375)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.51),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.86634344, 0.5095874, 0.93648887, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ys7nj"]
+_data = {
+&"RESET": SubResource("Animation_ys7nj"),
+&"idle": SubResource("Animation_ywcne"),
+&"walk": SubResource("Animation_rxur6")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ywcne"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ys7nj"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rxur6"]
+xfade_time = 0.2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idle_to_walk"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_walk_to_idle"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_pwnhl"]
+states/End/position = Vector2(825, 100)
+states/Start/position = Vector2(128, 100)
+states/idle/node = SubResource("AnimationNodeAnimation_ywcne")
+states/idle/position = Vector2(445, 100)
+states/walk/node = SubResource("AnimationNodeAnimation_ys7nj")
+states/walk/position = Vector2(593.1838, 100)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_rxur6"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_idle_to_walk"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_walk_to_idle")]
+graph_offset = Vector2(-87.816216, 0)
+
 [node name="Gaypcan" type="CharacterBody2D" unique_id=1344987193]
 script = ExtResource("1_script")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1371694508]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=956760423]
+position = Vector2(1, -2)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_icon")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1100029131]
 shape = SubResource("CircleShape2D_1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1593886793]
+libraries/ = SubResource("AnimationLibrary_ys7nj")
 
 [node name="AnimationTree" type="AnimationTree" parent="." unique_id=1382481616]
+tree_root = SubResource("AnimationNodeStateMachine_pwnhl")
+anim_player = NodePath("../AnimationPlayer")
 
 [node name="Idle" type="Node" parent="." unique_id=1999822608]
-script = ExtResource("2_idle")
+script = ExtResource("3_idle")
 
 [node name="Walk" type="Node" parent="." unique_id=618731249]
-script = ExtResource("3_wander")
+script = ExtResource("4_walk")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1413804993]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true

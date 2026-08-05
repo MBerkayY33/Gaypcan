@@ -1,8 +1,15 @@
 [gd_scene format=3 uid="uid://btkktu5iocop5"]
 
 [ext_resource type="PackedScene" uid="uid://c7yghprryti1q" path="res://Scenes/gaypcan.tscn" id="1_a02cp"]
+[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://Assests/icon.svg" id="2_go701"]
 
 [node name="world" type="Node2D" unique_id=1605365973]
 
+[node name="Arkaplan" type="Sprite2D" parent="." unique_id=1791043871]
+modulate = Color(1, 0.35732567, 0.29020837, 1)
+position = Vector2(565, 318.99994)
+scale = Vector2(19.398438, 10.996094)
+texture = ExtResource("2_go701")
+
 [node name="Gaypcan" parent="." unique_id=1344987193 instance=ExtResource("1_a02cp")]
-script = null
+position = Vector2(570, 298)
