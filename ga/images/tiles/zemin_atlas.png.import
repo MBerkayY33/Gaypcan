@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://24kfm6rmn5lw"
-path="res://.godot/imported/brown.png-85c97820feab97772d0b95f90b9cf125.ctex"
+uid="uid://dbvlh232g4ayu"
+path="res://.godot/imported/zemin_atlas.png-08e0d7074af1d10a24ca26be0b977902.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/tiles/brown.png"
-dest_files=["res://.godot/imported/brown.png-85c97820feab97772d0b95f90b9cf125.ctex"]
+source_file="res://images/tiles/zemin_atlas.png"
+dest_files=["res://.godot/imported/zemin_atlas.png-08e0d7074af1d10a24ca26be0b977902.ctex"]
 
 [params]
 

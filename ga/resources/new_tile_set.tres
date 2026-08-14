@@ -1,0 +1,12 @@
+[gd_resource type="TileSet" format=3 uid="uid://byqajuxkhn24f"]
+
+[ext_resource type="Texture2D" uid="uid://dbvlh232g4ayu" path="res://images/tiles/zemin_atlas.png" id="1_5base"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7d8hi"]
+texture = ExtResource("1_5base")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_7d8hi")
