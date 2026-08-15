@@ -30,3 +30,11 @@ func guide_towards(target: Vector2) -> void:
 		walk_state.set_target(target)
 	if current_state == states.get("idle") or current_state == states.get("walk"):
 		change_state("walk")
+
+
+func change_state(new_state_name: String) -> void:
+	# Eğer editör modundaysak, sadece 'idle' (bekleme) durumuna geçişe izin ver
+	var editor = get_node_or_null("IngameEditor")
+	if editor and editor.is_editor_mode and new_state_name != "idle":
+		return
+	super(new_state_name)

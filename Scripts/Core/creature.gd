@@ -24,7 +24,7 @@ var previous_state: CreatureState = null
 # =============================================
 ## Sprite node referansı (Sprite2D veya AnimatedSprite2D – _ready'de bulunur)
 var sprite_node = null
-@onready var anim_tree: AnimationTree = $AnimationTree
+@onready var anim_tree: AnimationTree = get_node_or_null("AnimationTree")
 var anim_state_machine: AnimationNodeStateMachinePlayback = null
 var use_anim_tree: bool = false
 
@@ -179,6 +179,11 @@ func _update_animation() -> void:
 		if sprite_node.animation != anim_name:
 			if sprite_node.sprite_frames and sprite_node.sprite_frames.has_animation(anim_name):
 				sprite_node.play(anim_name)
+				
+	# Bütün BodyPart çocuklarına animasyonu haber ver
+	for child in get_children():
+		if child.has_method("play_animation"):
+			child.play_animation(anim_name)
 
 
 # =============================================

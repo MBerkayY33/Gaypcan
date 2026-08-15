@@ -4,7 +4,59 @@ extends RigidBody2D
 ## Modüler Vücut Parçası — 16 Bağlantı Noktalı Fiziksel Parça
 ## Her kenarında 4 adet eklem (PinJoint2D) bulunur.
 ## Inspector'dan hedef parçaları atayarak fiziksel bağlantı kurabilirsiniz.
+## Inspector'dan hedef parçaları atayarak fiziksel bağlantı kurabilirsiniz.
 ## Editable Children açmanıza gerek yoktur.
+
+signal slot_clicked(body_part: Node, slot_name: String)
+
+var is_ingame_editor_active: bool = false:
+	set(v):
+		is_ingame_editor_active = v
+		queue_redraw()
+
+var _all_joints = [
+	"Top_1", "Top_2", "Top_3", "Top_4", 
+	"Bottom_1", "Bottom_2", "Bottom_3", "Bottom_4",
+	"Left_1", "Left_2", "Left_3", "Left_4", 
+	"Right_1", "Right_2", "Right_3", "Right_4"
+]
+
+# ==========================================
+# OYUN İÇİ EDİTÖR ÇİZİMİ VE TIKLAMA
+# ==========================================
+func _draw() -> void:
+	if not is_ingame_editor_active:
+		return
+		
+	for j_name in _all_joints:
+		var joint = get_node_or_null("Joints/" + j_name)
+		if not joint:
+			continue
+			
+		var target_path = get(j_name.to_lower())
+		var is_connected = target_path != null and not target_path.is_empty()
+		
+		var color = Color.RED if is_connected else Color.WHITE
+		draw_circle(joint.position, 8.0, color)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_ingame_editor_active:
+		return
+		
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var local_mouse = get_local_mouse_position()
+		
+		for j_name in _all_joints:
+			var joint = get_node_or_null("Joints/" + j_name)
+			if not joint: continue
+			
+			if local_mouse.distance_to(joint.position) <= 10.0:
+				var target_path = get(j_name.to_lower())
+				var is_connected = target_path != null and not target_path.is_empty()
+				if not is_connected:
+					slot_clicked.emit(self, j_name)
+					get_viewport().set_input_as_handled()
+				return
 
 # ==========================================
 # TOP CONNECTIONS
@@ -245,3 +297,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	
 	# Aşırı sallanmayı durdurmak için açısal sönümleme
 	state.angular_velocity *= 0.90
+
+# ==========================================
+# ANİMASYON YÖNETİMİ
+# ==========================================
+func play_animation(anim_name: String) -> void:
+	var anim_player = get_node_or_null("AnimationPlayer")
+	if anim_player and anim_player.has_animation(anim_name):
+		anim_player.play(anim_name)

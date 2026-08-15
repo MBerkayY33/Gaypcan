@@ -4,59 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://clwtp6g4utiox" path="res://Scenes/body_part.tscn" id="2_ys7nj"]
 [ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://Scripts/Gaypcan/states/idle_state.gd" id="3_idle"]
 [ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="4_walk"]
+[ext_resource type="Script" uid="uid://cv66nckcpsmbs" path="res://Scripts/Core/ingame_editor.gd" id="5_editor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
 size = Vector2(63.51, 20)
-
-[sub_resource type="Animation" id="Animation_ys7nj"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_ywcne"]
-resource_name = "idle"
-length = 2.0
-loop_mode = 1
-markers = [{
-"color": Color(1, 1, 1, 1),
-"name": &"new_marker_2",
-"time": -1.3666667
-}]
-
-[sub_resource type="Animation" id="Animation_rxur6"]
-resource_name = "walk"
-loop_mode = 1
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ys7nj"]
-_data = {
-&"RESET": SubResource("Animation_ys7nj"),
-&"idle": SubResource("Animation_ywcne"),
-&"walk": SubResource("Animation_rxur6")
-}
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ywcne"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ys7nj"]
-animation = &"walk"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rxur6"]
-xfade_time = 0.2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_idle_to_walk"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_walk_to_idle"]
-xfade_time = 0.2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_pwnhl"]
-states/End/position = Vector2(825, 100)
-states/Start/position = Vector2(128, 100)
-states/idle/node = SubResource("AnimationNodeAnimation_ywcne")
-states/idle/position = Vector2(445, 100)
-states/walk/node = SubResource("AnimationNodeAnimation_ys7nj")
-states/walk/position = Vector2(593.1838, 100)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_rxur6"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_idle_to_walk"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_walk_to_idle")]
-graph_offset = Vector2(-87.816216, 0)
 
 [node name="Gaypcan" type="CharacterBody2D" unique_id=1344987193]
 script = ExtResource("1_ywcne")
@@ -68,13 +19,6 @@ visible = false
 [node name="ZeminKontrol" type="ShapeCast2D" parent="CevreKontrol" unique_id=139933779]
 shape = SubResource("RectangleShape2D_yf5fn")
 target_position = Vector2(1, 41)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1593886793]
-libraries/ = SubResource("AnimationLibrary_ys7nj")
-
-[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1382481616]
-tree_root = SubResource("AnimationNodeStateMachine_pwnhl")
-anim_player = NodePath("../AnimationPlayer")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1413804993]
 position_smoothing_enabled = true
@@ -95,3 +39,6 @@ script = ExtResource("3_idle")
 
 [node name="Walk" type="Node" parent="States" unique_id=618731249]
 script = ExtResource("4_walk")
+
+[node name="IngameEditor" type="Node" parent="." unique_id=987654321]
+script = ExtResource("5_editor")
