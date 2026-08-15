@@ -12,15 +12,12 @@ signal transition_requested(new_state_name: String)
 # TEMEL FONKSİYONLAR (Override edilecekler)
 # =============================================
 
-## Duruma girildiğinde 1 kez çağrılır.
 func enter() -> void:
 	pass
-
-## Her fizik karesinde çağrılır (~60 FPS).
+	
 func update(delta: float) -> void:
 	pass
 
-## Durumdan çıkılırken 1 kez çağrılır.
 func exit() -> void:
 	pass
 

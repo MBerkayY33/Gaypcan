@@ -67,6 +67,17 @@ func _ready() -> void:
 	_setup_animation_tree()
 	_set_initial_state()
 
+# =============================================
+# UPDATE
+# =============================================
+
+func _physics_process(delta: float) -> void:
+	if current_state:
+		current_state.update(delta)
+
+	_update_animation()
+	move_and_slide()
+
 
 ## Sahne ağacında Sprite2D veya AnimatedSprite2D bulur.
 func _find_sprite_node() -> void:
@@ -78,7 +89,10 @@ func _find_sprite_node() -> void:
 
 ## Sahne ağacındaki tüm CreatureState çocuklarını bulur ve kaydeder.
 func _discover_states() -> void:
-	for child in get_children():
+	var states_parent = get_node_or_null("States")
+	var nodes_to_check = states_parent.get_children() if states_parent else get_children()
+	
+	for child in nodes_to_check:
 		if child is CreatureState:
 			var state_name: String = child.name.to_lower()
 			states[state_name] = child
@@ -109,18 +123,6 @@ func _set_initial_state() -> void:
 		push_error("[%s] Başlangıç durumu '%s' bulunamadı! Mevcut: %s" % [
 			_get_creature_name(), initial_state_name, states.keys()
 		])
-
-
-# =============================================
-# UPDATE
-# =============================================
-
-func _physics_process(delta: float) -> void:
-	if current_state:
-		current_state.update(delta)
-
-	_update_animation()
-	move_and_slide()
 
 
 # =============================================
