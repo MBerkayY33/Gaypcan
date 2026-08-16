@@ -99,10 +99,12 @@ _data = {
 }
 
 [node name="BodyPart" type="RigidBody2D" unique_id=1913924471]
+input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("2_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=52247722]
+show_behind_parent = true
 scale = Vector2(0.55, 0.55)
 texture = ExtResource("1_flqu8")
 

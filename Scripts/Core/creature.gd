@@ -34,26 +34,19 @@ var use_anim_tree: bool = false
 # =============================================
 
 @export_group("Hareket")
-## Yürüme hızı
-@export var walk_speed: float = 60.0
-## Hızlanma ivmesi (Yumuşak hareket için)
-@export var acceleration: float = 300.0
-## Yavaşlama sürtünmesi (Yumuşak duruş için)
-@export var friction: float = 300.0
-## Yürüme/dolaşma yarıçapı
-@export var walk_radius: float = 200.0
-## Hedefe varış eşiği
-@export var arrival_threshold: float = 10.0
+@export var walk_speed: float = 60.0 # Karakterin ulaşabileceği maksimum yürüme hızı
+@export var acceleration: float = 300.0 # Yürümeye başlarken hızlanma ivmesi (Yumuşak kalkış)
+@export var friction: float = 300.0 # Dururken etki eden yavaşlama sürtünmesi (Yumuşak duruş)
+@export var walk_min_distance: float = 100.0 # Rastgele yürüyüşte seçeceği en kısa mesafe (Hemen durmasını engeller)
+@export var walk_radius: float = 200.0 # Etrafta rastgele dolaşırken gidebileceği maksimum mesafe
+@export var arrival_threshold: float = 10.0 # Hedefe ne kadar yaklaşınca duracağını belirleyen mesafe eşiği
 
 @export_group("Zamanlayıcılar")
-## IDLE minimum bekleme süresi (saniye)
-@export var idle_min_time: float = 1.5
-## IDLE maksimum bekleme süresi (saniye)
-@export var idle_max_time: float = 4.0
+@export var idle_min_time: float = 1.5 # Bekleme durumunda en az kalacağı süre (saniye)
+@export var idle_max_time: float = 4.0 # Bekleme durumunda en fazla kalacağı süre (saniye)
 
 @export_group("Başlangıç Durumu")
-## Sahne açıldığında hangi durumla başlar (node adı, küçük harf)
-@export var initial_state_name: String = "idle"
+@export var initial_state_name: String = "idle" # Oyun başladığında ilk girilecek state (Örn: 'idle', 'walk')
 
 
 # =============================================
@@ -77,7 +70,6 @@ func _physics_process(delta: float) -> void:
 
 	_update_animation()
 	move_and_slide()
-
 
 ## Sahne ağacında Sprite2D veya AnimatedSprite2D bulur.
 func _find_sprite_node() -> void:

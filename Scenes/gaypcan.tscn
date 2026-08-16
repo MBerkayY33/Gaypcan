@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://Scripts/Gaypcan/states/idle_state.gd" id="3_idle"]
 [ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="4_walk"]
 [ext_resource type="Script" uid="uid://cv66nckcpsmbs" path="res://Scripts/Core/ingame_editor.gd" id="5_editor"]
+[ext_resource type="Script" uid="uid://c8164doga072t" path="res://Scripts/Core/dynamic_camera.gd" id="6_camera"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
 size = Vector2(63.51, 20)
@@ -12,6 +13,7 @@ size = Vector2(63.51, 20)
 [node name="Gaypcan" type="CharacterBody2D" unique_id=1344987193]
 script = ExtResource("1_ywcne")
 walk_speed = 100.0
+walk_radius = 400.0
 
 [node name="CevreKontrol" type="Node2D" parent="." unique_id=1174661716]
 visible = false
@@ -24,13 +26,13 @@ target_position = Vector2(1, 41)
 position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+script = ExtResource("6_camera")
+scroll_zoom_in_step = 1.4
+scroll_zoom_out_step = 10.0
 
 [node name="Govde" parent="." unique_id=388394541 instance=ExtResource("2_ys7nj")]
+input_pickable = false
 freeze = true
-top_1 = NodePath("../Kol")
-
-[node name="Kol" parent="." unique_id=453475103 instance=ExtResource("2_ys7nj")]
-position = Vector2(-21, -70)
 
 [node name="States" type="Node" parent="." unique_id=1455359361]
 

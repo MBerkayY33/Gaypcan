@@ -7,12 +7,22 @@ extends RigidBody2D
 ## Inspector'dan hedef parçaları atayarak fiziksel bağlantı kurabilirsiniz.
 ## Editable Children açmanıza gerek yoktur.
 
-signal slot_clicked(body_part: Node, slot_name: String)
+signal slot_clicked(body_part: Node, slot_name: String, button_index: int)
+signal body_part_right_clicked(part: Node)
+
+@export var spring_torque: float = 4000.0 # Parçanın sallanırken kendi orijinal açısına (T-Pose) dönme gücü (Yaylanma/Sertlik)
+
+var tpose_offset: Vector2 = Vector2.ZERO
+var original_freeze: bool = false
+var hovered_joint: String = ""
+var is_fast_add_locked: bool = false
 
 var is_ingame_editor_active: bool = false:
 	set(v):
 		is_ingame_editor_active = v
 		queue_redraw()
+
+var overlapped_joints: Array[String] = []
 
 var _all_joints = [
 	"Top_1", "Top_2", "Top_3", "Top_4", 
@@ -20,6 +30,40 @@ var _all_joints = [
 	"Left_1", "Left_2", "Left_3", "Left_4", 
 	"Right_1", "Right_2", "Right_3", "Right_4"
 ]
+
+# ==========================================
+# FİZİKSEL ÇAKIŞMA (OVERLAP) KONTROLÜ
+# ==========================================
+func _physics_process(delta: float) -> void:
+	if not is_ingame_editor_active:
+		return
+		
+	overlapped_joints.clear()
+	var space_state = get_world_2d().direct_space_state
+	var query = PhysicsShapeQueryParameters2D.new()
+	var shape = CircleShape2D.new()
+	shape.radius = 8.0 # Noktanın etrafında 8 piksellik bir alan tarar
+	query.shape = shape
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.exclude = [self.get_rid()]
+	
+	for j_name in _all_joints:
+		var joint = get_node_or_null("Joints/" + j_name)
+		if not joint: continue
+		
+		# Sadece boş olan jointleri sorgula
+		var target_path = get(j_name.to_lower())
+		var is_connected = target_path != null and not target_path.is_empty()
+		if is_connected: continue
+		
+		query.transform = Transform2D(0, joint.global_position)
+		var results = space_state.intersect_shape(query)
+		if results.size() > 0:
+			overlapped_joints.append(j_name)
+	
+	# Noktaların güncel durumunu ekrana yansıt
+	queue_redraw()
 
 # ==========================================
 # OYUN İÇİ EDİTÖR ÇİZİMİ VE TIKLAMA
@@ -37,13 +81,50 @@ func _draw() -> void:
 		var is_connected = target_path != null and not target_path.is_empty()
 		
 		var color = Color.RED if is_connected else Color.WHITE
-		draw_circle(joint.position, 8.0, color)
+		
+		if not is_connected and j_name in overlapped_joints:
+			# Başka bir parçanın içinde kalan (çakışan) yuvalara çarpı çiz
+			var p = joint.position
+			draw_line(p + Vector2(-4, -4), p + Vector2(4, 4), Color.RED, 2.0)
+			draw_line(p + Vector2(4, -4), p + Vector2(-4, 4), Color.RED, 2.0)
+		else:
+			draw_circle(joint.position, 4.5, color) # Boyut 8.0'dan 4.5'e küçültüldü
+			
+			if j_name == hovered_joint:
+				# Yeşil artı çiz
+				var p = joint.position
+				draw_line(p + Vector2(-3, 0), p + Vector2(3, 0), Color.GREEN, 1.5)
+				draw_line(p + Vector2(0, -3), p + Vector2(0, 3), Color.GREEN, 1.5)
+				
+				# Kilit aktifse ufak kırmızı kilit sembolü çiz
+				if is_fast_add_locked:
+					var lock_pos = p + Vector2(6, -6)
+					draw_rect(Rect2(lock_pos, Vector2(5, 4)), Color.RED, true)
+					draw_arc(lock_pos + Vector2(2.5, 0), 2.0, PI, TAU, 10, Color.RED, 1.0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not is_ingame_editor_active:
 		return
 		
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseMotion:
+		var local_mouse = get_local_mouse_position()
+		var found_hover = ""
+		for j_name in _all_joints:
+			var joint = get_node_or_null("Joints/" + j_name)
+			if not joint: continue
+			
+			if local_mouse.distance_to(joint.position) <= 10.0:
+				var target_path = get(j_name.to_lower())
+				var is_connected = target_path != null and not target_path.is_empty()
+				if not is_connected and not (j_name in overlapped_joints):
+					found_hover = j_name
+					break
+					
+		if hovered_joint != found_hover:
+			hovered_joint = found_hover
+			queue_redraw()
+			
+	if event is InputEventMouseButton and event.pressed and (event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT):
 		var local_mouse = get_local_mouse_position()
 		
 		for j_name in _all_joints:
@@ -54,9 +135,21 @@ func _unhandled_input(event: InputEvent) -> void:
 				var target_path = get(j_name.to_lower())
 				var is_connected = target_path != null and not target_path.is_empty()
 				if not is_connected:
-					slot_clicked.emit(self, j_name)
+					if j_name in overlapped_joints:
+						# Çakışan noktalara tıklanmasını engelle
+						get_viewport().set_input_as_handled()
+						return
+					slot_clicked.emit(self, j_name, event.button_index)
 					get_viewport().set_input_as_handled()
 				return
+
+func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
+	if not is_ingame_editor_active:
+		return
+		
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		body_part_right_clicked.emit(self)
+		get_viewport().set_input_as_handled()
 
 # ==========================================
 # TOP CONNECTIONS
@@ -164,6 +257,9 @@ func _unhandled_input(event: InputEvent) -> void:
 # ==========================================
 
 func _ready() -> void:
+	tpose_offset = position
+	original_freeze = freeze
+	
 	# Eğer oyun çalışıyorsa ve bu parça hareketli bir uzuv ise (Gövde değilse)
 	if not Engine.is_editor_hint():
 		if not freeze:
@@ -292,9 +388,8 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	var target_rotation = 0.0
 	var angle_diff = wrapf(target_rotation - rotation, -PI, PI)
 	
-	# Yayı andıran bir tork uygula (Daha organik olması için azaltıldı)
-	state.apply_torque(angle_diff * 4000.0)
-	
+	# Yayı andıran bir tork uygula (Daha organik olması için)
+	state.apply_torque(angle_diff * spring_torque)
 	# Aşırı sallanmayı durdurmak için açısal sönümleme
 	state.angular_velocity *= 0.90
 

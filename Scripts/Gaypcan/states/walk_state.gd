@@ -35,14 +35,22 @@ func exit() -> void:
 	target = Vector2.ZERO
 
 
-## Başlangıç pozisyonu etrafında rastgele bir hedef seçer.
 func _pick_random_target() -> void:
-	var angle: float = randf() * TAU
-	var distance: float = randf_range(50.0, creature.walk_radius)
-	target = creature.home_position + Vector2(
-		cos(angle) * distance,
-		sin(angle) * distance
-	)
+	# Uygun bir nokta bulana kadar en fazla 15 kez dene
+	for i in 15:
+		var angle: float = randf() * TAU
+		var distance: float = randf_range(creature.walk_min_distance, creature.walk_radius)
+		
+		# Karakterin MECUT konumundan 'distance' kadar uzağa bir nokta seç
+		var potential_target = creature.global_position + Vector2(cos(angle), sin(angle)) * distance
+		
+		# Eğer bu seçilen nokta hala evin (home) sınırları içindeyse kabul et
+		if potential_target.distance_to(creature.home_position) <= creature.walk_radius:
+			target = potential_target
+			return
+			
+	# Eğer sınırın çok ucundaysa ve uygun nokta bulamadıysa, merkeze (eve) dön
+	target = creature.home_position
 
 
 ## Dışarıdan belirli bir noktaya yönlendirmek için.
