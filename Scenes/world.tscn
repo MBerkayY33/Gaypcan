@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btkktu5iocop5"]
 
 [ext_resource type="PackedScene" uid="uid://c7yghprryti1q" path="res://Scenes/gaypcan.tscn" id="1_a02cp"]
-[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://Assests/icon.svg" id="2_go701"]
+[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://Assets/icon.svg" id="2_go701"]
 
 [node name="world" type="Node2D" unique_id=1605365973]
 

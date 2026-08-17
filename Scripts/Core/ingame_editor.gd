@@ -104,7 +104,7 @@ func _toggle_editor_mode() -> void:
 	
 	if is_editor_mode:
 		creature.velocity = Vector2.ZERO
-		creature.change_state("idle")
+		creature.change_state("edit")
 		
 		if camera and govde:
 			original_camera_pos = camera.position
@@ -115,6 +115,7 @@ func _toggle_editor_mode() -> void:
 		editor_menu.hide()
 		delete_menu.hide()
 		mode_label.show()
+		creature.change_state("idle")
 		
 		# Kamera eski haline döndürme işi artık dynamic_camera'da
 		
@@ -182,11 +183,8 @@ func _add_body_part_logic() -> void:
 	
 	var joint = last_clicked_part.get_node_or_null("Joints/" + last_clicked_slot)
 	if joint:
-		var offset = Vector2.ZERO
-		if last_clicked_slot.begins_with("Top"): offset = Vector2(0, -35)
-		elif last_clicked_slot.begins_with("Bottom"): offset = Vector2(0, 35)
-		elif last_clicked_slot.begins_with("Left"): offset = Vector2(-35, 0)
-		elif last_clicked_slot.begins_with("Right"): offset = Vector2(35, 0)
+		var a_offset = last_clicked_part.attach_offset if "attach_offset" in last_clicked_part else 35.0
+		var offset = joint.position.normalized() * a_offset
 		
 		var rotated_offset = offset.rotated(last_clicked_part.global_rotation)
 		new_part.global_position = joint.global_position + rotated_offset
@@ -199,7 +197,12 @@ func _add_body_part_logic() -> void:
 	new_part.freeze = true
 	
 	var relative_path = last_clicked_part.get_path_to(new_part)
-	last_clicked_part.set(last_clicked_slot.to_lower(), relative_path)
+	if "connected_parts" in last_clicked_part:
+		if last_clicked_part.connected_parts == null:
+			last_clicked_part.connected_parts = {}
+		last_clicked_part.connected_parts[last_clicked_slot] = relative_path
+		if last_clicked_part.has_method("_update_joint"):
+			last_clicked_part._update_joint(last_clicked_slot, relative_path)
 
 func _on_body_part_right_clicked(part: Node) -> void:
 	if part.name == "Govde":
@@ -224,23 +227,24 @@ func _on_delete_part_pressed() -> void:
 
 func _clear_references_to(node: Node, target_node: Node) -> void:
 	for child in node.get_children():
-		if child is RigidBody2D and child.has_method("_update_joint"):
-			var all_joints = [
-				"top_1", "top_2", "top_3", "top_4", 
-				"bottom_1", "bottom_2", "bottom_3", "bottom_4",
-				"left_1", "left_2", "left_3", "left_4", 
-				"right_1", "right_2", "right_3", "right_4"
-			]
-			for j_name in all_joints:
-				var p = child.get(j_name)
-				if p and not p.is_empty():
-					var n = child.get_node_or_null(p)
-					if n == target_node:
-						child.set(j_name, NodePath(""))
+		if child is RigidBody2D and "connected_parts" in child:
+			if child.connected_parts != null:
+				for j_name in child.connected_parts.keys():
+					var p = child.connected_parts[j_name]
+					if p and not p.is_empty():
+						var n = child.get_node_or_null(p)
+						if n == target_node:
+							if child.has_method("_update_joint"):
+								child._update_joint(j_name, NodePath(""))
 		_clear_references_to(child, target_node)
 
 func _cleanup_orphaned_parts() -> void:
-	var govde = creature.get_node_or_null("Govde")
+	var govde: Node = null
+	for child in creature.get_children():
+		if child is RigidBody2D and "connected_parts" in child:
+			govde = child
+			break
+			
 	if not govde:
 		return
 		
@@ -254,19 +258,13 @@ func _cleanup_orphaned_parts() -> void:
 			
 		visited.append(current)
 		
-		var all_joints = [
-			"top_1", "top_2", "top_3", "top_4", 
-			"bottom_1", "bottom_2", "bottom_3", "bottom_4",
-			"left_1", "left_2", "left_3", "left_4", 
-			"right_1", "right_2", "right_3", "right_4"
-		]
-		
-		for j_name in all_joints:
-			var path = current.get(j_name)
-			if path and not path.is_empty():
-				var neighbor = current.get_node_or_null(path)
-				if neighbor and is_instance_valid(neighbor) and not neighbor in visited:
-					queue.append(neighbor)
+		if "connected_parts" in current and current.connected_parts != null:
+			for j_name in current.connected_parts.keys():
+				var path = current.connected_parts[j_name]
+				if path and not path.is_empty():
+					var neighbor = current.get_node_or_null(path)
+					if neighbor and is_instance_valid(neighbor) and not neighbor in visited:
+						queue.append(neighbor)
 					
 	_delete_orphans(creature, visited)
 

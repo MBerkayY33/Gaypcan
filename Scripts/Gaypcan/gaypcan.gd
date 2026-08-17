@@ -33,8 +33,8 @@ func guide_towards(target: Vector2) -> void:
 
 
 func change_state(new_state_name: String) -> void:
-	# Eğer editör modundaysak, sadece 'idle' (bekleme) durumuna geçişe izin ver
+	# Eğer editör modundaysak, sadece 'edit' durumuna geçişe izin ver
 	var editor = get_node_or_null("IngameEditor")
-	if editor and editor.is_editor_mode and new_state_name != "idle":
+	if editor and editor.is_editor_mode and new_state_name != "edit":
 		return
 	super(new_state_name)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nta6qhwrpy7p"
-path="res://.godot/imported/icon.svg-bbf40db24664f927185b61d95210fd80.ctex"
+uid="uid://bdwnsaqqr3bvi"
+path="res://.godot/imported/Baglanti Noktasi.png-9f1eb9803d120f7ca3288f7beb88e4b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assests/icon.svg"
-dest_files=["res://.godot/imported/icon.svg-bbf40db24664f927185b61d95210fd80.ctex"]
+source_file="res://Assets/Editor Assets/Baglanti Noktasi.png"
+dest_files=["res://.godot/imported/Baglanti Noktasi.png-9f1eb9803d120f7ca3288f7beb88e4b1.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://clwtp6g4utiox"]
 
-[ext_resource type="Texture2D" uid="uid://nta6qhwrpy7p" path="res://Assests/icon.svg" id="1_flqu8"]
 [ext_resource type="Script" uid="uid://d1xajenok73jy" path="res://Scripts/Core/body_part.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://dsko5jaqfhbm1" path="res://Assets/Creature Assets/Basic Bodypart.png" id="2_vgybq"]
+[ext_resource type="Texture2D" uid="uid://bdwnsaqqr3bvi" path="res://Assets/Editor Assets/Baglanti Noktasi.png" id="3_daw41"]
+[ext_resource type="Texture2D" uid="uid://besdyhs2vcmhh" path="res://Assets/Editor Assets/Yesil Arti.png" id="4_r3ygm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(70, 70)
@@ -11,7 +13,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("Body_Image:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -23,10 +25,507 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/path = NodePath("Body_Image:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Joints/Joint_20/Plus:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Joints/Joint_19/Plus:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Joints/Joint_18/Plus:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Joints/Joint_17/Plus:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Joints/Joint_16/Plus:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Joints/Joint_15/Plus:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Joints/Joint_14/Plus:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Joints/Joint_13/Plus:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Joints/Joint_12/Plus:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Joints/Joint_11/Plus:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Joints/Joint_10/Plus:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Joints/Joint_9/Plus:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Joints/Joint_8/Plus:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Joints/Joint_7/Plus:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Joints/Joint_6/Plus:scale")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Joints/Joint_5/Plus:scale")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Joints/Joint_4/Plus:scale")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Joints/Joint_3/Plus:scale")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Joints/Joint_2/Plus:scale")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+tracks/21/type = "value"
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/path = NodePath("Joints/Joint_1/Plus:scale")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.288, 0.288)]
+}
+
+[sub_resource type="Animation" id="Animation_ya28n"]
+resource_name = "edit"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Joints/Joint_20/Plus:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Joints/Joint_19/Plus:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Joints/Joint_18/Plus:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Joints/Joint_17/Plus:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Joints/Joint_16/Plus:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Joints/Joint_15/Plus:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Joints/Joint_14/Plus:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Joints/Joint_13/Plus:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Joints/Joint_12/Plus:scale")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Joints/Joint_11/Plus:scale")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("Joints/Joint_10/Plus:scale")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("Joints/Joint_9/Plus:scale")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Joints/Joint_8/Plus:scale")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Joints/Joint_7/Plus:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Joints/Joint_6/Plus:scale")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Joints/Joint_5/Plus:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Joints/Joint_4/Plus:scale")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Joints/Joint_3/Plus:scale")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Joints/Joint_2/Plus:scale")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/19/type = "value"
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/path = NodePath("Joints/Joint_1/Plus:scale")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/keys = {
+"times": PackedFloat32Array(0, 1.01, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.288, 0.288), Vector2(0.2, 0.2), Vector2(0.28, 0.28)]
+}
+tracks/20/type = "value"
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/path = NodePath("Body_Image:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -40,7 +539,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("Body_Image:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -52,7 +551,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/path = NodePath("Body_Image:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -69,19 +568,19 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("Body_Image:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.99, 2.02),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.55, 0.55), Vector2(0.8, 0.8), Vector2(0.5531949, 0.5531949)]
+"values": [Vector2(0.55, 0.55), Vector2(0.7, 0.7), Vector2(0.5531949, 0.5531949)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/path = NodePath("Body_Image:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -94,6 +593,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_daw41"]
 _data = {
 &"RESET": SubResource("Animation_mudx1"),
+&"edit": SubResource("Animation_ya28n"),
 &"idle": SubResource("Animation_yghe4"),
 &"walk": SubResource("Animation_vgybq")
 }
@@ -102,11 +602,13 @@ _data = {
 input_pickable = true
 gravity_scale = 0.0
 script = ExtResource("2_script")
+hover_radius = 1.0
+mouse_detect_radius = 5.0
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=52247722]
+[node name="Body_Image" type="Sprite2D" parent="." unique_id=52247722]
 show_behind_parent = true
 scale = Vector2(0.55, 0.55)
-texture = ExtResource("1_flqu8")
+texture = ExtResource("2_vgybq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1026719464]
 shape = SubResource("RectangleShape2D_body")
@@ -116,66 +618,282 @@ libraries/ = SubResource("AnimationLibrary_daw41")
 
 [node name="Joints" type="Node2D" parent="." unique_id=982682196]
 
-[node name="Top_1" type="PinJoint2D" parent="Joints" unique_id=1508301444]
-position = Vector2(-21, -35)
+[node name="Joint_1" type="PinJoint2D" parent="Joints" unique_id=1508301444]
+position = Vector2(-26, -35)
 node_a = NodePath("../..")
 
-[node name="Top_2" type="PinJoint2D" parent="Joints" unique_id=393550254]
-position = Vector2(-7, -35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_1" unique_id=573969987]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_1" unique_id=2111877869]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_2" type="PinJoint2D" parent="Joints" unique_id=978968635]
+position = Vector2(-13, -35)
 node_a = NodePath("../..")
 
-[node name="Top_3" type="PinJoint2D" parent="Joints" unique_id=2023220476]
-position = Vector2(7, -35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_2" unique_id=1227619291]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_2" unique_id=2138804362]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_3" type="PinJoint2D" parent="Joints" unique_id=1952944469]
+position = Vector2(0, -35)
 node_a = NodePath("../..")
 
-[node name="Top_4" type="PinJoint2D" parent="Joints" unique_id=1451020959]
-position = Vector2(21, -35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_3" unique_id=792336245]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_3" unique_id=814940566]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_4" type="PinJoint2D" parent="Joints" unique_id=2000836343]
+position = Vector2(13, -35)
 node_a = NodePath("../..")
 
-[node name="Bottom_1" type="PinJoint2D" parent="Joints" unique_id=82206106]
-position = Vector2(-21, 35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_4" unique_id=454625856]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_4" unique_id=1014011919]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_5" type="PinJoint2D" parent="Joints" unique_id=657032268]
+position = Vector2(26, -35)
 node_a = NodePath("../..")
 
-[node name="Bottom_2" type="PinJoint2D" parent="Joints" unique_id=237089777]
-position = Vector2(-7, 35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_5" unique_id=101221145]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_5" unique_id=87856564]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_6" type="PinJoint2D" parent="Joints" unique_id=1117316763]
+position = Vector2(35, -26)
 node_a = NodePath("../..")
 
-[node name="Bottom_3" type="PinJoint2D" parent="Joints" unique_id=1100520821]
-position = Vector2(7, 35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_6" unique_id=575195462]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_6" unique_id=1369311428]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_7" type="PinJoint2D" parent="Joints" unique_id=544270036]
+position = Vector2(35, -13)
 node_a = NodePath("../..")
 
-[node name="Bottom_4" type="PinJoint2D" parent="Joints" unique_id=1168853322]
-position = Vector2(21, 35)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_7" unique_id=1580127229]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_7" unique_id=282470015]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_8" type="PinJoint2D" parent="Joints" unique_id=227833768]
+position = Vector2(35, 0)
 node_a = NodePath("../..")
 
-[node name="Left_1" type="PinJoint2D" parent="Joints" unique_id=1377166040]
-position = Vector2(-35, -21)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_8" unique_id=912321666]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_8" unique_id=1418386945]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_9" type="PinJoint2D" parent="Joints" unique_id=996911985]
+position = Vector2(35, 13)
 node_a = NodePath("../..")
 
-[node name="Left_2" type="PinJoint2D" parent="Joints" unique_id=898607790]
-position = Vector2(-35, -7)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_9" unique_id=1755975930]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_9" unique_id=1114048501]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_10" type="PinJoint2D" parent="Joints" unique_id=1590180319]
+position = Vector2(35, 26)
 node_a = NodePath("../..")
 
-[node name="Left_3" type="PinJoint2D" parent="Joints" unique_id=258514249]
-position = Vector2(-35, 7)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_10" unique_id=1195502757]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_10" unique_id=1317313470]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_11" type="PinJoint2D" parent="Joints" unique_id=8479684]
+position = Vector2(26, 35)
 node_a = NodePath("../..")
 
-[node name="Left_4" type="PinJoint2D" parent="Joints" unique_id=265715466]
-position = Vector2(-35, 21)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_11" unique_id=602045313]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_11" unique_id=1863341202]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_12" type="PinJoint2D" parent="Joints" unique_id=2005210357]
+position = Vector2(13, 35)
 node_a = NodePath("../..")
 
-[node name="Right_1" type="PinJoint2D" parent="Joints" unique_id=1985283140]
-position = Vector2(35, -21)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_12" unique_id=1043936384]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_12" unique_id=430775254]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_13" type="PinJoint2D" parent="Joints" unique_id=1188758724]
+position = Vector2(0, 35)
 node_a = NodePath("../..")
 
-[node name="Right_2" type="PinJoint2D" parent="Joints" unique_id=331668886]
-position = Vector2(35, -7)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_13" unique_id=486477497]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_13" unique_id=2059541271]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_14" type="PinJoint2D" parent="Joints" unique_id=1668786152]
+position = Vector2(-13, 35)
 node_a = NodePath("../..")
 
-[node name="Right_3" type="PinJoint2D" parent="Joints" unique_id=1466049191]
-position = Vector2(35, 7)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_14" unique_id=1733788859]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_14" unique_id=1064992781]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_15" type="PinJoint2D" parent="Joints" unique_id=178203171]
+position = Vector2(-26, 35)
 node_a = NodePath("../..")
 
-[node name="Right_4" type="PinJoint2D" parent="Joints" unique_id=1097464511]
-position = Vector2(35, 21)
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_15" unique_id=785592439]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_15" unique_id=367488779]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_16" type="PinJoint2D" parent="Joints" unique_id=1479706641]
+position = Vector2(-35, 26)
 node_a = NodePath("../..")
+
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_16" unique_id=632073173]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_16" unique_id=878499866]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_17" type="PinJoint2D" parent="Joints" unique_id=1267172306]
+position = Vector2(-35, 13)
+node_a = NodePath("../..")
+
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_17" unique_id=2070567312]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_17" unique_id=789507313]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_18" type="PinJoint2D" parent="Joints" unique_id=1834324035]
+position = Vector2(-35, 0)
+node_a = NodePath("../..")
+
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_18" unique_id=637760660]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_18" unique_id=256136008]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_19" type="PinJoint2D" parent="Joints" unique_id=332088474]
+position = Vector2(-35, -13)
+node_a = NodePath("../..")
+
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_19" unique_id=79499393]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_19" unique_id=1160024425]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")
+
+[node name="Joint_20" type="PinJoint2D" parent="Joints" unique_id=13923177]
+position = Vector2(-35, -26)
+node_a = NodePath("../..")
+
+[node name="Con_Point" type="Sprite2D" parent="Joints/Joint_20" unique_id=1582292911]
+visible = false
+scale = Vector2(0.36, 0.36)
+texture = ExtResource("3_daw41")
+
+[node name="Plus" type="Sprite2D" parent="Joints/Joint_20" unique_id=312088277]
+visible = false
+scale = Vector2(0.288, 0.288)
+texture = ExtResource("4_r3ygm")

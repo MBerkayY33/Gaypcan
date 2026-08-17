@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://Scripts/Gaypcan/states/walk_state.gd" id="4_walk"]
 [ext_resource type="Script" uid="uid://cv66nckcpsmbs" path="res://Scripts/Core/ingame_editor.gd" id="5_editor"]
 [ext_resource type="Script" uid="uid://c8164doga072t" path="res://Scripts/Core/dynamic_camera.gd" id="6_camera"]
+[ext_resource type="Script" uid="uid://dfh5v3say25st" path="res://Scripts/Gaypcan/states/edit_state.gd" id="7_edit"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yf5fn"]
 size = Vector2(63.51, 20)
@@ -30,9 +31,10 @@ script = ExtResource("6_camera")
 scroll_zoom_in_step = 1.4
 scroll_zoom_out_step = 10.0
 
-[node name="Govde" parent="." unique_id=388394541 instance=ExtResource("2_ys7nj")]
+[node name="Body" parent="." unique_id=388394541 instance=ExtResource("2_ys7nj")]
 input_pickable = false
 freeze = true
+hover_radius = 5.0
 
 [node name="States" type="Node" parent="." unique_id=1455359361]
 
@@ -41,6 +43,9 @@ script = ExtResource("3_idle")
 
 [node name="Walk" type="Node" parent="States" unique_id=618731249]
 script = ExtResource("4_walk")
+
+[node name="Edit" type="Node" parent="States" unique_id=54711381]
+script = ExtResource("7_edit")
 
 [node name="IngameEditor" type="Node" parent="." unique_id=987654321]
 script = ExtResource("5_editor")
