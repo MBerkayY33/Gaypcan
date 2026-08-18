@@ -29,7 +29,7 @@ func _process(delta: float) -> void:
 		var t := Time.get_ticks_usec()
 		map.yayilim_fonksiyonu(STEP_SIZE)
 		map.verim_guncelleme(STEP_SIZE)
-		print((Time.get_ticks_usec() - t) / 1000.0, " ms")
+		#print((Time.get_ticks_usec() - t) / 1000.0, " ms")
 		
 		for i in map.degisenler:
 			var x := i % map.Height

@@ -11,7 +11,7 @@ script = ExtResource("1_hbtbi")
 tile_set = ExtResource("2_o6v5h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=125660101 node_paths=PackedStringArray("ground")]
-position = Vector2(4096, 4096)
+offset = Vector2(4096, 4096)
 script = ExtResource("3_w8ad3")
 ground = NodePath("../Ground")
 

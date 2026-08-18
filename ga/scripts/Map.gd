@@ -40,8 +40,8 @@ func produce_ground():
 	pass
 	
 func test_lekesi() -> void:
-	for y in range(10, 26):
-		for x in range(10, 26):
+	for y in range(120, 136):
+		for x in range(120, 136):
 			nem[y * Width + x] = 1.0
 			
 func verim_guncelleme(dt: float) -> void:
