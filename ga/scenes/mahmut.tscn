@@ -8,6 +8,7 @@
 script = ExtResource("1_hbtbi")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=332740964]
+texture_filter = 6
 tile_set = ExtResource("2_o6v5h")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=125660101 node_paths=PackedStringArray("ground")]

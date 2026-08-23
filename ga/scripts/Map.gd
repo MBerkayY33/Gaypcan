@@ -3,11 +3,10 @@ class_name Map extends RefCounted
 const Width := 256
 const Height := 256
 
-const YAYILIM_HIZI := 2
+const YAYILIM_HIZI := 2.0
 
-
-const VERIM_ESIK := 0.3
-const VERIM_ARTIS := 1
+const VERIM_ESIK := 0.3  
+const VERIM_ARTIS := 1.0     #0.005 YAP BUNU HIZLI DEĞİŞİM GÖRMEK İÇİN BAYA ARTIRDIM
 const VERIM_AZALIS := 0.02
 
 const BIYOM_YESIL_ESIK := 0.6
@@ -21,7 +20,7 @@ var nem_update:PackedFloat32Array
 var gunes:     PackedFloat32Array
 var verim:     PackedFloat32Array
 
-
+enum Biyom { earthy, green }
 
 func _init() -> void:
 	var n = Width * Height
@@ -31,14 +30,6 @@ func _init() -> void:
 	nem_update.resize(n)
 	biome.resize(n)
 
-	
-var img = Image.create(Width,Height,false,Image.FORMAT_RGB8)	
-
-
-
-func produce_ground():
-	pass
-	
 func test_lekesi() -> void:
 	for y in range(120, 136):
 		for x in range(120, 136):
@@ -52,11 +43,11 @@ func verim_guncelleme(dt: float) -> void:
 			verim[i] -= VERIM_AZALIS * (VERIM_ESIK - nem[i]) / VERIM_ESIK * dt
 		verim[i] = clampf(verim[i], 0.0, 1.0)
 		
-		if biome[i] == 0 and verim[i] > BIYOM_YESIL_ESIK:
-			biome[i] = 1
+		if biome[i] == Biyom.earthy and verim[i] > BIYOM_YESIL_ESIK:
+			biome[i] = Biyom.green
 			degisenler.append(i)
-		elif biome[i] == 1 and verim[i] < BIYOM_KAHVE_ESIK:
-			biome[i] = 0
+		elif biome[i] == Biyom.green and verim[i] < BIYOM_KAHVE_ESIK:
+			biome[i] = Biyom.earthy
 			degisenler.append(i)
 		
 func yayilim_fonksiyonu(dt: float) -> void:
