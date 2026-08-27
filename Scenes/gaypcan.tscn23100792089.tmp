@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cfu36f7gstsr6" path="res://scripts/Gaypcan/gaypcan.gd" id="1_ywcne"]
 [ext_resource type="PackedScene" uid="uid://cacjm5123e80a" path="res://Scenes/UI Scenes/editor_canvas.tscn" id="2_wda6r"]
-[ext_resource type="PackedScene" uid="uid://dc8nmnea2xd6c" path="res://Scenes/body_part.tscn" id="2_ys7nj"]
+[ext_resource type="PackedScene" uid="uid://clwtp6g4utiox" path="res://Scenes/body_part.tscn" id="2_ys7nj"]
 [ext_resource type="Script" uid="uid://drrjusv4bd5to" path="res://scripts/Gaypcan/states/idle_state.gd" id="3_idle"]
 [ext_resource type="Script" uid="uid://bxo0cw8v38rwe" path="res://scripts/Gaypcan/states/walk_state.gd" id="4_walk"]
 [ext_resource type="Script" uid="uid://cv66nckcpsmbs" path="res://scripts/Core/ingame_editor.gd" id="5_editor"]

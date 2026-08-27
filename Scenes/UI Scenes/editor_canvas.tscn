@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://cacjm5123e80a"]
+
+[ext_resource type="StyleBox" uid="uid://duskat48qrprq" path="res://Styles/DenemeStili.tres" id="1_oj0g7"]
+
+[node name="editor_canvas" type="CanvasLayer" unique_id=191110182]
+
+[node name="Editor_Tools_Panel" type="PanelContainer" parent="." unique_id=1363560782]
+visible = false
+anchors_preset = -1
+anchor_right = 0.065000005
+anchor_bottom = 1.0
+offset_right = 3.119995
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Editor_Tools_Panel" unique_id=1903813464]
+layout_mode = 2
+
+[node name="Add_Body" type="Button" parent="Editor_Tools_Panel/VBoxContainer" unique_id=982226718]
+layout_mode = 2
+text = "Vücut Parçası Ekle"
+
+[node name="Add_part" type="Button" parent="Editor_Tools_Panel/VBoxContainer" unique_id=1403592510]
+layout_mode = 2
+text = "Uzuv Ekle"
+
+[node name="Delete" type="Button" parent="Editor_Tools_Panel/VBoxContainer" unique_id=180857777]
+layout_mode = 2
+text = "Kaldır
+
+"
+
+[node name="Con_Point_Panel" type="PanelContainer" parent="." unique_id=58059197]
+visible = false
+anchors_preset = -1
+anchor_left = 0.50200003
+anchor_top = 0.47800002
+anchor_right = 0.50200003
+anchor_bottom = 0.47800002
+offset_left = -70.304016
+offset_top = -50.74402
+offset_right = 71.36096
+offset_bottom = 50.780975
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9985129, 0.99678457)
+size_flags_horizontal = 4
+theme_override_styles/panel = ExtResource("1_oj0g7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Con_Point_Panel" unique_id=930050048]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Add_Body_Button" type="Button" parent="Con_Point_Panel/VBoxContainer" unique_id=1457852959]
+layout_mode = 2
+text = "Gövde Ekle
+"
+
+[node name="Draw_Connection_Button" type="Button" parent="Con_Point_Panel/VBoxContainer" unique_id=-2147114337]
+layout_mode = 2
+text = "Bağlantı Ekle"
+
+[node name="Add_Part_Button" type="Button" parent="Con_Point_Panel/VBoxContainer" unique_id=2048084545]
+layout_mode = 2
+text = "Uzuv Ekle"
+
+[node name="Connect_Part_Button" type="Button" parent="Con_Point_Panel/VBoxContainer" unique_id=1724902172]
+layout_mode = 2
+text = "Birleştir
+"
+
+[node name="Body_Part_Panel" type="PanelContainer" parent="." unique_id=814151842]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.48100004
+anchor_right = 0.5
+anchor_bottom = 0.48100004
+offset_left = -90.0
+offset_top = -45.68802
+offset_right = 90.0
+offset_bottom = 49.816895
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = ExtResource("1_oj0g7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body_Part_Panel" unique_id=1086243017]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Delete_Bodypart_Button" type="Button" parent="Body_Part_Panel/VBoxContainer" unique_id=1732624702]
+layout_mode = 2
+text = "Sil"
+
+[node name="Properties_Button" type="Button" parent="Body_Part_Panel/VBoxContainer" unique_id=180815627]
+layout_mode = 2
+text = "Özellikler
+"

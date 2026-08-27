@@ -11,19 +11,17 @@ extends RigidBody2D
 signal slot_clicked(body_part: Node, slot_name: String, button_index: int) # Bir bağlantı noktasına tıklandığında tetiklenir
 signal body_part_right_clicked(part: Node) # Parçanın kendisine sağ tıklandığında (silmek için) tetiklenir
 
-@export var spring_torque: float = 4000.0 # Parçanın sallanırken kendi orijinal açısına (T-Pose) dönme gücü
-@export var connected_parts: Dictionary = {} # Hangi bağlantı noktasına hangi hedefin bağlandığını saklayan Sözlük (Örn: "Joint_1": NodePath)
+@export_group("Hover Animation")
+@export var plus_hover_scale: float = 1.3 # Üzerine gelindiğinde yeşil artının ne kadar büyüyeceği
+@export var plus_hover_duration: float = 0.3 # Büyüme/küçülme animasyonunun süresi
 
-## connected_parts Sözlüğünün güvenli (Nil olmayan) halini döndürür.
-func _get_connected_parts() -> Dictionary:
-	if connected_parts == null:
-		connected_parts = {}
-	return connected_parts
+@export_group("Physics & Visuals")
+@export var spring_torque: float = 4000.0 # Parçanın sallanırken kendi orijinal açısına (T-Pose) dönme gücü
 
 @export var is_ingame_editor_active: bool = false:
 	set(v):
 		is_ingame_editor_active = v
-		queue_redraw() # Editör modu açılıp kapandığında ekranda noktaları yeniden çizmek için
+		_update_visuals() # Editör açılıp kapandığında görselleri anında güncelle
 		
 @export var hover_radius: float = 5.0 # Oyun içinde bağlantıların üst üste binip binmediğini (çakışma) tespit etme yarıçapı
 @export var mouse_detect_radius: float = 20.0 # Farenin bağlantı noktasını algılama mesafesi (128x128 sprite için 20 idealdir)
@@ -31,9 +29,43 @@ func _get_connected_parts() -> Dictionary:
 
 var tpose_offset: Vector2 = Vector2.ZERO # Başlangıçtaki lokal pozisyon (T-Pose durumu)
 var original_freeze: bool = false # Başlangıçtaki dondurulma (freeze) durumunu hafızada tutar
-var hovered_joint: String = "" # Farenin o an üzerinde olduğu bağlantı noktasının adı
-var is_fast_add_locked: bool = false # Seri tıklamayla menü açmadan parça ekleme kilit modu (Asma Kilit sembolü)
-var overlapped_joints: Array[String] = [] # Fiziksel olarak başka bir parçanın içinde kalan bağlantı noktalarının listesi
+var is_dragging: bool = false
+var drag_offset: Vector2 = Vector2.ZERO
+
+var _hover_tween: Tween
+var _plus_original_scales: Dictionary = {} # Plus spritelarının orijinal boyutlarını tutar
+var hovered_joint: String = "": # Farenin o an üzerinde olduğu bağlantı noktasının adı
+	set(v):
+		if hovered_joint != v:
+			var old_joint = hovered_joint
+			hovered_joint = v
+			_update_hover_animation(old_joint, hovered_joint)
+
+func _update_hover_animation(old_joint_name: String, new_joint_name: String) -> void:
+	if _hover_tween and _hover_tween.is_valid():
+		_hover_tween.kill()
+		
+	if old_joint_name != "":
+		var old_joint = get_node_or_null("Joints/" + old_joint_name)
+		if old_joint:
+			var old_plus = old_joint.get_node_or_null("Plus")
+			if old_plus:
+				var orig_scale = _plus_original_scales.get(old_joint_name, Vector2(0.28, 0.28))
+				old_plus.scale = orig_scale # Eski haline döndür
+				
+	if new_joint_name != "":
+		var new_joint = get_node_or_null("Joints/" + new_joint_name)
+		if new_joint:
+			var new_plus = new_joint.get_node_or_null("Plus")
+			if new_plus and new_plus.visible:
+				if not _plus_original_scales.has(new_joint_name):
+					_plus_original_scales[new_joint_name] = new_plus.scale
+				var orig_scale = _plus_original_scales[new_joint_name]
+				var target_scale = orig_scale * plus_hover_scale # Çarpan olarak kullanıyoruz
+				
+				_hover_tween = create_tween().set_loops()
+				_hover_tween.tween_property(new_plus, "scale", target_scale, plus_hover_duration).set_trans(Tween.TRANS_SINE)
+				_hover_tween.tween_property(new_plus, "scale", orig_scale, plus_hover_duration).set_trans(Tween.TRANS_SINE)
 
 # ==========================================
 # BAŞLATMA VE BAĞLANTI (JOINT) YÖNETİMİ
@@ -45,7 +77,7 @@ func _get_all_joints() -> Array[String]:
 	var joints_node = get_node_or_null("Joints")
 	if joints_node:
 		for child in joints_node.get_children():
-			if child is PinJoint2D:
+			if child is Marker2D:
 				list.append(child.name)
 	return list
 
@@ -55,6 +87,11 @@ func _ready() -> void:
 	original_freeze = freeze
 	
 	# Eğer oyun çalışıyorsa ve parça hareketli bir uzuv ise (dondurulmamışsa)
+	
+	var joints_node = get_node_or_null("Joints")
+	if joints_node:
+		joints_node.z_as_relative = false
+		joints_node.z_index = 50 # Her zaman parçaların üzerinde kalmasını garantile
 	if not Engine.is_editor_hint():
 		if not freeze:
 			var g_pos = global_position
@@ -64,134 +101,38 @@ func _ready() -> void:
 			global_rotation = g_rot
 			can_sleep = false # Hareketsiz kaldığında uyku moduna geçip donmasını engeller
 			
-	# Tüm node'lar sahneye eklendikten sonra (1 frame bekler) fiziksel bağlantıları kur
-	call_deferred("_apply_all_joints")
-
-## Sözlükte (Dictionary) kayıtlı olan tüm bağlantı yollarını fizik motoruna (PinJoint2D'lere) uygular
-func _apply_all_joints() -> void:
-	var dict = _get_connected_parts()
-	for j_name in dict.keys():
-		_update_joint(j_name, dict[j_name])
-
-## Tek bir PinJoint2D'nin 'node_b' hedefini günceller ve Sözlüğe kaydeder
-func _update_joint(joint_name: String, target_path: NodePath) -> void:
-	if not is_inside_tree():
-		return
-		
-	var dict = _get_connected_parts()
-
-	var joint = get_node_or_null("Joints/" + joint_name)
-	if not joint or not joint is PinJoint2D:
-		return
-
-	# Hedef boşsa bağlantıyı kopar ve sözlükten sil
-	if target_path.is_empty():
-		joint.node_b = NodePath("")
-		dict.erase(joint_name)
-		return
-
-	var target = get_node_or_null(target_path)
-	if not target:
-		return
-
-	# Aynı parçanın başka noktalara (Duplicate) bağlanmasını engelle
-	_clear_duplicates(joint_name, target_path)
-
-	dict[joint_name] = target_path
-	joint.node_b = joint.get_path_to(target) # PinJoint2D'nin beklediği göreceli (relative) yol
-
-## Bir parça zaten başka bir slota takılıysa, o eski slotu temizler (Bir kol 2 ayrı omuza takılamaz)
-func _clear_duplicates(current_joint: String, target_path: NodePath) -> void:
-	if target_path.is_empty():
-		return
-		
-	var dict = _get_connected_parts()
-		
-	for j_name in _get_all_joints():
-		if j_name == current_joint:
-			continue
-		if dict.get(j_name, NodePath()) == target_path:
-			dict.erase(j_name)
-			var old_joint = get_node_or_null("Joints/" + j_name)
-			if old_joint and old_joint is PinJoint2D:
-				old_joint.node_b = NodePath("")
+	# Fiziksel bağlantılar artık Connection sahnesi aracılığıyla Editor tarafından yönetilecek.
 
 # ==========================================
 # ÇAKIŞMA KONTROLÜ VE EKRANA ÇİZİM
 # ==========================================
 
-## Her fizik karesinde (frame) çakışan (başka parçanın içinde kalan) noktaları tespit eder
-func _physics_process(delta: float) -> void:
-	if not is_ingame_editor_active:
-		return
-		
-	overlapped_joints.clear()
-	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsShapeQueryParameters2D.new()
-	var shape = CircleShape2D.new()
-	shape.radius = hover_radius # Yarıçap Inspector'dan ayarlanır
-	query.shape = shape
-	query.collide_with_areas = false
-	query.collide_with_bodies = true
-	query.exclude = [self.get_rid()] # Kendi gövdesini aramadan dışla
-	
-	var dict = _get_connected_parts()
+func _process(_delta: float) -> void:
+	if is_dragging and is_ingame_editor_active:
+		global_position = get_global_mouse_position() + drag_offset
+
+func _physics_process(_delta: float) -> void:
+	pass
+
+func _update_visuals() -> void:
 	for j_name in _get_all_joints():
 		var joint = get_node_or_null("Joints/" + j_name)
 		if not joint: continue
+		var spr_con = joint.get_node_or_null("Con_Point")
+		var spr_plus = joint.get_node_or_null("Plus")
+		var is_occupied = has_meta("occupied_" + j_name) and get_meta("occupied_" + j_name) == true
 		
-		var target_path = dict.get(j_name, NodePath())
-		var is_connected = not target_path.is_empty()
-		if is_connected: continue # Zaten bağlıysa çakışma testine gerek yok
-		
-		# O noktada fiziksel bir obje var mı diye daire şeklinde tarama yap
-		query.transform = Transform2D(0, joint.global_position)
-		var results = space_state.intersect_shape(query)
-		if results.size() > 0:
-			overlapped_joints.append(j_name)
-	
-	queue_redraw() # _draw() fonksiyonunu tetikleyerek ekranı yenile
+		if spr_con: spr_con.visible = is_ingame_editor_active
+		if spr_plus: spr_plus.visible = is_ingame_editor_active and not is_occupied
 
-## Oyun içi editör açıkken bağlantı noktalarını (beyaz/kırmızı yuvarlak ve yeşil artı) çizer
-func _draw() -> void:
-	if not is_ingame_editor_active:
-		return
-		
-	var dict = _get_connected_parts()
-	for j_name in _get_all_joints():
-		var joint = get_node_or_null("Joints/" + j_name)
-		if not joint:
-			continue
-			
-		var target_path = dict.get(j_name, NodePath())
-		var is_connected = not target_path.is_empty()
-		
-		var color = Color.RED if is_connected else Color.WHITE
-		
-		if not is_connected and j_name in overlapped_joints:
-			# Çakışan noktalara kırmızı çarpı (X) çiz
-			var p = joint.position
-			draw_line(p + Vector2(-4, -4), p + Vector2(4, 4), Color.RED, 2.0)
-			draw_line(p + Vector2(4, -4), p + Vector2(-4, 4), Color.RED, 2.0)
-		else:
-			# Normal durumlarda beyaz veya kırmızı daire çiz
-			draw_circle(joint.position, 4.5, color)
-			
-			if j_name == hovered_joint:
-				# Fare üstündeyse yeşil artı (+) çiz
-				var p = joint.position
-				draw_line(p + Vector2(-3, 0), p + Vector2(3, 0), Color.GREEN, 1.5)
-				draw_line(p + Vector2(0, -3), p + Vector2(0, 3), Color.GREEN, 1.5)
-				
-				if is_fast_add_locked:
-					# Hızlı ekleme kilidi aktifse ufak bir kırmızı asma kilit çiz
-					var lock_pos = p + Vector2(6, -6)
-					draw_rect(Rect2(lock_pos, Vector2(5, 4)), Color.RED, true)
-					draw_arc(lock_pos + Vector2(2.5, 0), 2.0, PI, TAU, 10, Color.RED, 1.0)
 
 # ==========================================
 # FARE ETKİLEŞİMLERİ (INPUT)
 # ==========================================
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		is_dragging = false
 
 ## Fare ile noktaların üzerine gelme ve noktalara tıklama durumlarını yönetir
 func _unhandled_input(event: InputEvent) -> void:
@@ -203,27 +144,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		var local_mouse = get_local_mouse_position()
 		var found_hover = ""
 		var min_dist = mouse_detect_radius # En fazla bu kadar uzaktayken algılar
-		var dict = _get_connected_parts()
+		
 		for j_name in _get_all_joints():
 			var joint = get_node_or_null("Joints/" + j_name)
 			if not joint: continue
 			
 			var dist = local_mouse.distance_to(joint.position)
 			if dist <= min_dist:
-				var target_path = dict.get(j_name, NodePath())
-				var is_connected = not target_path.is_empty()
-				if not is_connected and not (j_name in overlapped_joints):
-					found_hover = j_name
-					min_dist = dist # Daha yakın bir tane bulduk, mesafe sınırını buna çek
+				found_hover = j_name
+				min_dist = dist # Daha yakın bir tane bulduk, mesafe sınırını buna çek
 					
 		if hovered_joint != found_hover:
 			hovered_joint = found_hover
-			queue_redraw() # Eski fare konumu silinsin, yeni yeşil artı çizilsin diye
 			
 	# Fare Tıklaması: Bir noktaya tıklandığında ekleme işlemlerini başlat (slot_clicked sinyali)
 	if event is InputEventMouseButton and event.pressed and (event.button_index == MOUSE_BUTTON_LEFT or event.button_index == MOUSE_BUTTON_RIGHT):
 		var local_mouse = get_local_mouse_position()
-		var dict = _get_connected_parts()
 		
 		var clicked_j_name = ""
 		var min_dist = mouse_detect_radius
@@ -233,86 +169,34 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 			var dist = local_mouse.distance_to(joint.position)
 			if dist <= min_dist:
-				var target_path = dict.get(j_name, NodePath())
-				var is_connected = not target_path.is_empty()
-				if not is_connected:
-					clicked_j_name = j_name
-					min_dist = dist
+				clicked_j_name = j_name
+				min_dist = dist
 					
 		if clicked_j_name != "":
-			if clicked_j_name in overlapped_joints:
-				get_viewport().set_input_as_handled()
-				return
 			slot_clicked.emit(self, clicked_j_name, event.button_index)
 			get_viewport().set_input_as_handled()
 			return
 
-## Parçanın kendisine sağ tıklandığını algılar (Silme menüsü için)
+## Parçanın kendisine sağ tıklandığını algılar (Silme menüsü için) veya sol tıklayıp sürüklemeyi başlatır
 func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
 	if not is_ingame_editor_active:
 		return
 		
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		body_part_right_clicked.emit(self)
-		get_viewport().set_input_as_handled()
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			body_part_right_clicked.emit(self)
+			get_viewport().set_input_as_handled()
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				is_dragging = true
+				drag_offset = global_position - get_global_mouse_position()
+				get_viewport().set_input_as_handled()
+			else:
+				is_dragging = false
 
 # ==========================================
 # EDİTÖR İÇİ HİZALAMA VE ANİMASYON
 # ==========================================
-
-## Normal her frame döngüsü. Editördeysek hizalama yapar, oyundaysak görselleri (artı sembolü) günceller.
-func _process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		_snap_all_attached_parts()
-	else:
-		_update_visuals()
-
-## Sprite olarak eklenen "Con_Point" ve "Plus" nesnelerinin görünürlüğünü ayarlar
-func _update_visuals() -> void:
-	# Oyun içi editör açık değilse tamamen gizle
-	if not is_ingame_editor_active:
-		for j_name in _get_all_joints():
-			var con_point = get_node_or_null("Joints/" + j_name + "/Con_Point")
-			if con_point: con_point.visible = false
-			var plus = get_node_or_null("Joints/" + j_name + "/Plus")
-			if plus: plus.visible = false
-		return
-		
-	var dict = _get_connected_parts()	
-	for j_name in _get_all_joints():
-		var joint = get_node_or_null("Joints/" + j_name)
-		if not joint: continue
-		
-		var target_path = dict.get(j_name, NodePath())
-		var is_connected = not target_path.is_empty()
-		
-		var con_point = get_node_or_null("Joints/" + j_name + "/Con_Point")
-		var plus = get_node_or_null("Joints/" + j_name + "/Plus")
-		
-		# Sadece boş olan ve üst üste binmemiş (çakışmamış) noktalarda beyaz daireyi göster
-		if not is_connected and not (j_name in overlapped_joints):
-			if con_point: con_point.visible = true
-			if plus: plus.visible = (j_name == hovered_joint) # Farenin üstünde olduğu noktada yeşil artıyı yak
-		else:
-			if con_point: con_point.visible = false
-			if plus: plus.visible = false
-
-## Editörde Inspector üzerinden bağlanan parçaları otomatik olarak dışarı iter ve uç uca hizalar
-func _snap_all_attached_parts() -> void:
-	var dict = _get_connected_parts()
-	for j_name in _get_all_joints():
-		var target_path = dict.get(j_name, NodePath())
-		if not target_path.is_empty():
-			var target = get_node_or_null(target_path)
-			var joint = get_node_or_null("Joints/" + j_name)
-			if target and target is Node2D and joint:
-				# Noktanın merkezden hangi yöne doğru (normali) baktığını bul ve o yönde it
-				# Bu sayede isimlerden (Top, Bottom) bağımsız, 360 derece her yöne dinamik yapışma sağlanır.
-				var offset = joint.position.normalized() * attach_offset
-				
-				# Vücudun rotasyonunu (dönüşünü) hesaba katarak itme vektörünü çevir
-				var rotated_offset = offset.rotated(global_rotation)
-				target.global_position = joint.global_position + rotated_offset
 
 ## Fizik motorunun özel entegrasyonu (Yay etkisi yaratır)
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
@@ -333,3 +217,7 @@ func play_animation(anim_name: String) -> void:
 	var anim_player = get_node_or_null("AnimationPlayer")
 	if anim_player and anim_player.has_animation(anim_name):
 		anim_player.play(anim_name)
+		
+	for child in get_children():
+		if child.has_method("play_animation"):
+			child.play_animation(anim_name)
