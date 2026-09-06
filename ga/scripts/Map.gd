@@ -20,7 +20,10 @@ var nem_update:PackedFloat32Array
 var gunes:     PackedFloat32Array
 var verim:     PackedFloat32Array
 
+
+
 enum Biyom { earthy, green }
+
 
 func _init() -> void:
 	var n = Width * Height

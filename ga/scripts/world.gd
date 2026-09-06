@@ -8,6 +8,8 @@ var accumlation := 0.0
 var map : Map
 
 
+@onready var panel: PanelContainer = $CanvasLayer/PanelContainer
+@onready var label: Label = $CanvasLayer/PanelContainer/Label
 
 #BİYOM EKLEME!!!!!!!!!!!!!
 #biyom eklemek istiyosan tiles klasorune gel buyuk pngye istedigin biyomu ekle ekledigin biyomun koordinatini
@@ -18,6 +20,9 @@ const ATLAS_COORD = [
 	Vector2i(0, 0),   # yeşil
 ]
 
+const BIOM_NAME = ["earthy", "green"]
+
+#tilemapi içeri aktarıyoruz(dolar sahnede ara demek)
 @onready var ground: TileMapLayer = $Ground
 
 func _ready() -> void:
@@ -30,10 +35,26 @@ func _ready() -> void:
 		for x in map.Width:
 			ground.set_cell(Vector2i(x, y), 0, dorpak)
 	print(ground.get_used_cells().size())
+	
+func _stat_window_update () -> void:
+	var mouse_coordinates:= get_global_mouse_position()
+	var cell := ground.local_to_map(ground.to_local(mouse_coordinates))
+	var i =cell[0] + map.Width*cell[1]
+	panel.visible = true
+	label.text = "cell: %d, %d\nnem: %.3f\ngüneş: %.3f\nverim: %.3f\nbiyom: %s" % [
+	cell.x, cell.y, map.nem[i], map.gunes[i], map.verim[i], BIOM_NAME[map.biome[i]]
+	]
+	if(not Input.is_key_pressed(KEY_SHIFT)):
+		panel.visible = false
+		return
 
 	
 func _process(delta: float) -> void:
 	accumlation += delta
+	_stat_window_update()
+	
+
+
 	while accumlation > (STEP_SIZE):
 		accumlation -= (STEP_SIZE)
 		var t := Time.get_ticks_usec()

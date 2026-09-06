@@ -17,3 +17,18 @@ script = ExtResource("3_w8ad3")
 ground = NodePath("../Ground")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=688115523]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer" unique_id=1277145860]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer" unique_id=1643456806]
+layout_mode = 2
+text = "test"

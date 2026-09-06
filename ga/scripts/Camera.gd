@@ -1,20 +1,25 @@
 extends Camera2D
 
 @export var zoom_rate := 0.2
-var camera_speed_coeff = 2
+@export var camera_speed_coeff = 2.0
 @export var ground: TileMapLayer
 var _zoom_min := 0.2
 @export var _zoom_max := 2.0
 @onready var Tile_pixel_size = ground.tile_set.tile_size.x
+@export var starting_tile_amount := 20.0
+
 
 func _ready() -> void:
-	
 	position = Vector2(Map.Width, Map.Height) * Tile_pixel_size * 0.5
 	limit_left = 0
 	limit_top = 0
+	limit_right = Map.Width * Tile_pixel_size
+	limit_bottom = Map.Height * Tile_pixel_size
 
-	limit_right = Map.Width*Tile_pixel_size
-	limit_bottom = Map.Height*Tile_pixel_size
+	var vp := get_viewport_rect().size
+	var z = vp.x / (starting_tile_amount * Tile_pixel_size)
+	zoom = Vector2(z, z)
+
 	_zoom_sinirla()
 
 func _process(delta:float) -> void:
